@@ -20,6 +20,9 @@ import Root from '../Root';
 vi.mock('react-router', () => {
   return { Outlet: () => <div data-testid="Outlet"></div> };
 });
+vi.mock('../../components/MainNavigation', () => {
+  return { default: () => <div data-testid="MainNavigation"></div> };
+});
 
 const server = setupServer(
   http.get('https://fakestoreapi.com/products', () => {
@@ -59,5 +62,12 @@ describe('Root', () => {
     await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
     const Outlet = await screen.findByTestId('Outlet');
     expect(Outlet).toBeInTheDocument();
+  });
+
+  it('renders the MainNavigation component', async () => {
+    render(<Root />);
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
+    const MainNavigation = await screen.findByTestId('MainNavigation');
+    expect(MainNavigation).toBeInTheDocument();
   });
 });
