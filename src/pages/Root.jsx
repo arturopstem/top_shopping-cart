@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router';
 
 import MainNavigation from '../components/MainNavigation';
 import useFetch from '../hooks/useFetch';
+import { getCart } from '../utils/cartStorage';
 
 const fakeStoreAPI = 'https://fakestoreapi.com/products';
 
 function Root() {
-  const { data, error, loading } = useFetch(fakeStoreAPI);
+  const { data: storeProducts, error, loading } = useFetch(fakeStoreAPI);
+  const [cart, setCart] = useState(() => getCart());
 
   if (loading) {
     return <p>Loading...</p>;
@@ -22,7 +25,7 @@ function Root() {
         <MainNavigation />
       </header>
       <main>
-        <Outlet />
+        <Outlet context={{ storeProducts, cart, setCart }} />
       </main>
       <footer></footer>
     </>
