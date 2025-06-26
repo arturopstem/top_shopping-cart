@@ -7,3 +7,19 @@ export function roundRating(rating) {
   }
   return wholeNumber;
 }
+
+export function groupByCategory(products) {
+  const productsByCategory = Object.groupBy(
+    products,
+    ({ category }) => category,
+  );
+
+  const categoryProductPairs = Object.entries(productsByCategory);
+
+  const categories = categoryProductPairs.map(([category, products]) => ({
+    category,
+    products,
+  }));
+
+  return categories;
+}

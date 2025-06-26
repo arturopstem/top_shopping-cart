@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { roundRating } from '../helpers';
+import { groupByCategory } from '../helpers';
 
 describe('roundRating', () => {
   it('returns 0 for rating 0', () => {
@@ -25,5 +26,30 @@ describe('roundRating', () => {
 
   it('returns 3.5 for rating 3.7', () => {
     expect(roundRating(3.7)).toBe(3.5);
+  });
+});
+
+describe('groupByCategory', () => {
+  it('returns an empty array when no products are provided', () => {
+    const groups = groupByCategory([]);
+    expect(groups).toEqual([]);
+  });
+
+  it('return an array with an object for each category', () => {
+    const groups = groupByCategory([
+      { id: 1, category: 'A' },
+      { id: 2, category: 'A' },
+      { id: 3, category: 'B' },
+    ]);
+    expect(groups).toEqual([
+      {
+        category: 'A',
+        products: [
+          { id: 1, category: 'A' },
+          { id: 2, category: 'A' },
+        ],
+      },
+      { category: 'B', products: [{ id: 3, category: 'B' }] },
+    ]);
   });
 });
