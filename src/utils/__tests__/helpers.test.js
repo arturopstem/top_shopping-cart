@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { roundRating } from '../helpers';
-import { groupByCategory } from '../helpers';
+import { findProduct, groupByCategory, roundRating } from '../helpers';
 
 describe('roundRating', () => {
   it('returns 0 for rating 0', () => {
@@ -51,5 +50,16 @@ describe('groupByCategory', () => {
       },
       { category: 'B', products: [{ id: 3, category: 'B' }] },
     ]);
+  });
+});
+
+describe('findProduct', () => {
+  it('returns undefined if productId not found', () => {
+    expect(findProduct([{ id: 1 }], '0')).toBeUndefined();
+    expect(findProduct([{ id: 1 }], '1abc')).toBeUndefined();
+  });
+
+  it('returns the product object if productId found', () => {
+    expect(findProduct([{ id: 1 }], '1')).toEqual({ id: 1 });
   });
 });

@@ -23,3 +23,7 @@ export function groupByCategory(products) {
 
   return categories;
 }
+
+export function findProduct(productsList, productId) {
+  return productsList.find((product) => product.id.toString() === productId);
+}
