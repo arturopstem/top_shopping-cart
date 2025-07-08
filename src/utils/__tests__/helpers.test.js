@@ -62,4 +62,9 @@ describe('findProduct', () => {
   it('returns the product object if productId found', () => {
     expect(findProduct([{ id: 1 }], '1')).toEqual({ id: 1 });
   });
+
+  it('works with either productId as number or string', () => {
+    expect(findProduct([{ id: 2 }], '2')).toEqual({ id: 2 });
+    expect(findProduct([{ id: 2 }], 2)).toEqual({ id: 2 });
+  });
 });
