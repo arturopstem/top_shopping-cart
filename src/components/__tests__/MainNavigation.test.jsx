@@ -25,4 +25,10 @@ describe('MainNavigation', () => {
     const shoppingCartLink = screen.getByRole('link', { name: /cart/i });
     expect(shoppingCartLink).toBeInTheDocument();
   });
+
+  it('renders the number of items in the cart', () => {
+    render(<MainNavigation cart={[{ id: 1 }, { id: 2 }, { id: 3 }]} />);
+    const numberOfItemsInCart = screen.getByText('3');
+    expect(numberOfItemsInCart).toBeInTheDocument();
+  });
 });
