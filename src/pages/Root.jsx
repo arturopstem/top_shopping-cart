@@ -22,7 +22,7 @@ function Root() {
   return (
     <>
       <header>
-        <MainNavigation />
+        <MainNavigation cart={cart} />
       </header>
       <main>
         <Outlet context={{ storeProducts, cart, setCart }} />
