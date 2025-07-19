@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function CartItemQuantity({
   cartItem,
@@ -10,10 +10,17 @@ function CartItemQuantity({
     () => cartItem?.quantity.toString() || '',
   );
 
+  useEffect(() => {
+    setQuantity(cartItem?.quantity.toString() || '');
+  }, [cartItem]);
+
   const handleInputChange = (e) => {
     const value = Number.parseInt(e.target.value);
 
-    if (Number.isNaN(value)) return;
+    if (Number.isNaN(value)) {
+      setQuantity(e.target.value);
+      return;
+    }
 
     setQuantity(value.toString());
     handleSetQuantity(value);
