@@ -53,8 +53,31 @@ function useProductCartManagement(productId) {
     });
   };
 
+  const handleSetQuantity = (newQuantity) => {
+    setCart((prevCart) => {
+      const currentItemIncart = findProduct(prevCart, productId);
+
+      if (!currentItemIncart) {
+        return prevCart;
+      }
+
+      const updatedCartItem = {
+        ...currentItemIncart,
+        quantity: newQuantity,
+      };
+
+      const nextCart = prevCart
+        .map((item) => (item.id === productId ? updatedCartItem : item))
+        .filter((item) => item.quantity > 0);
+
+      saveCart(nextCart);
+      return nextCart;
+    });
+  };
+
   return {
     cartItem,
+    handleSetQuantity,
     handleIncreaseQuantity,
     handleDecreaseQuantity,
   };
