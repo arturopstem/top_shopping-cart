@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { findProduct, groupByCategory, roundRating } from '../helpers';
+import {
+  calculateCartTotal,
+  findProduct,
+  formatPrice,
+  groupByCategory,
+  roundRating,
+} from '../helpers';
 
 describe('roundRating', () => {
   it('returns 0 for rating 0', () => {
@@ -66,5 +72,46 @@ describe('findProduct', () => {
   it('works with either productId as number or string', () => {
     expect(findProduct([{ id: 2 }], '2')).toEqual({ id: 2 });
     expect(findProduct([{ id: 2 }], 2)).toEqual({ id: 2 });
+  });
+});
+
+describe('calculateCartTotal', () => {
+  const dummyStoreProducts = [
+    { id: 1, price: 23.45 },
+    { id: 2, price: 67.89 },
+    { id: 3, price: 98.76 },
+    { id: 4, price: 54.32 },
+  ];
+
+  it('calculates total for simple cart with multiple items', () => {
+    const dummyCart = [
+      { id: 1, quantity: 1 },
+      { id: 2, quantity: 3 },
+    ];
+    const total = calculateCartTotal(dummyCart, dummyStoreProducts);
+    expect(total).toBe(227.12);
+  });
+
+  it('calculates total of zero for an empty cart', () => {
+    const total = calculateCartTotal([], dummyStoreProducts);
+    expect(total).toBe(0);
+  });
+});
+
+describe('formatPrice', () => {
+  it('formats zero correctly', () => {
+    expect(formatPrice(0)).toBe('$0.00');
+  });
+
+  it('formats decimal prices correctly', () => {
+    expect(formatPrice(13.13)).toBe('$13.13');
+  });
+
+  it('formats integers prices correctly', () => {
+    expect(formatPrice(100)).toBe('$100.00');
+  });
+
+  it('formats large numbers with comma separation', () => {
+    expect(formatPrice(1234.56)).toBe('$1,234.56');
   });
 });

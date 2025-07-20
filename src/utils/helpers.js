@@ -29,3 +29,27 @@ export function findProduct(productsList, productId) {
     (product) => product.id.toString() === productId.toString(),
   );
 }
+
+export function calculateCartTotal(cart, storeProducts) {
+  const total = cart.reduce((totalAccumulator, cartItem) => {
+    const product = findProduct(storeProducts, cartItem.id);
+
+    if (!product) {
+      return totalAccumulator;
+    }
+
+    const subtotal = product.price * cartItem.quantity;
+    return totalAccumulator + subtotal;
+  }, 0);
+
+  return total;
+}
+
+const priceFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
+export function formatPrice(price) {
+  return priceFormatter.format(price);
+}
